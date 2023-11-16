@@ -1,0 +1,49 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+hide circle
+skinparam fixCircleLabelOverlapping true
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+class Mail {
+    - from : String
+    - to : String
+    - date : String
+    + Message(from : String, to : String, date : String, message : Message)
+
+}
+
+class Group {
+
+    - sender : String
+}
+
+class Prank {
+    - prank : String
+
+}
+
+class Victim {
+     - email : String
+}
+
+
+class Message {
+    - subject : String
+    - body : String
+
+}
+
+class SmtpClient {
+    - socket : Socket
+
+}
+
+
+
+Group o-- Victim
+Mail --> Message : contains >
+Prank --> Message : creates >
+Group "1"--"1" Prank : possess >
+@enduml
