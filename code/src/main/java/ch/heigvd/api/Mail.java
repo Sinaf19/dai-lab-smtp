@@ -31,7 +31,13 @@ public class Mail {
         return message.getSubject();
     }
 
-    public String getContent() {
-        return message.getContent();
+    public String getBody() {
+        return message.getBody();
+    }
+
+    public Mail(String from, ArrayList<Victim> to, Message message) {
+        this.from = from;
+        this.to = to;
+        this.message = message;
     }
 }

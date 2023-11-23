@@ -16,4 +16,6 @@ public class Message {
     public String getBody() {
         return body;
     }
+
+
 }
