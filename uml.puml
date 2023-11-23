@@ -10,8 +10,7 @@ class Mail {
     - from : String
     - to : String
     - date : String
-    + Message(from : String, to : String, date : String, message : Message)
-
+    - message : Message
 }
 
 class Group {

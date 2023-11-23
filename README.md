@@ -24,7 +24,7 @@ Your mission is to develop a client application that automatically plays e-mail 
   3. the **number of groups** `n` on which the e-mail prank is played. This can be provided e.g., as a command line argument.
 * Your program should form `n` groups by selecting 2-5 e-mail addresses from the file for each group. The first address of the group is the sender, the others are the receivers (victims).
 * For each group, your program should select one of the e-mail messages. 
-* The respective messages are then sent to the diffent groups using the SMTP protocol.
+* The respective messages are then sent to the different groups using the SMTP protocol.
 
 Constraints
 -----------

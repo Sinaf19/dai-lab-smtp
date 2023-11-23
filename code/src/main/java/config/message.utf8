@@ -1,0 +1,14 @@
+Subject: Test message
+
+Hello dear,
+I am a test message.
+Your faithful,
+Sinaf19
+
+// intéressant d'avoir des séparateurs clairs entre les différents mails pour simuler le <CRLF>.<CRLF>
+$$
+
+Subject: Test message 2
+
+Here is another test message.
+
