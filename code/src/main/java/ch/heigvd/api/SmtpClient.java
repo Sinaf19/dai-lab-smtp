@@ -4,7 +4,7 @@ import java.net.*;
 import java.nio.charset.StandardCharsets;
 
 public class SmtpClient {
-
+    private static final String EOL = "\r\n";
     private static final String SMTP_HOST = "localhost";
     private static final int SMTP_PORT = 25;
 
@@ -23,13 +23,13 @@ public class SmtpClient {
             System.out.println(response);
 
             // Send the EHLO command
-            out.write("EHLO example.com\r\n");
+            out.write("EHLO example.com" + EOL);
             out.flush();
             response = in.readLine();
             System.out.println(response);
 
             // Send the MAIL FROM command
-            out.write("MAIL FROM: <sender@example.com>\r\n");
+            out.write("MAIL FROM: <sender@example.com>" + EOL);
             out.flush();
             response = in.readLine();
             System.out.println(response);
@@ -73,7 +73,33 @@ public class SmtpClient {
         }
     }
 
-    public void sendMail(Mail mail) {
+    public void sendMail(Mail mail,  BufferedReader in, BufferedWriter out) throws IOException {
+        String response;
+        out.write("EHLO example.com\r\n");
+        response = in.readLine();
+        System.out.println(response);
+
+        out.write("MAIL FROM: <" + mail.getFrom() + ">\r\n");
+        out.flush();
+        response = in.readLine();
+        System.out.println(response);
+
+        for(var to : mail.getTo()) {
+            out.write("RCPT TO: <" + to.getMail() + ">" + EOL);
+            out.flush();
+            response = in.readLine();
+            System.out.println(response);
+        }
+
+        out.write("DATA\r\n");
+        out.flush();
+        response = in.readLine();
+        System.out.println(response);
+        out.write("Subject:" + mail.getSubject() + EOL);
+        out.write("From: <sender@example.com>" + EOL);
+        out.write("To: <recipient@example.com>" + EOL);
+        out.write("\r\n");
+
 
     }
 }

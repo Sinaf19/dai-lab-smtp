@@ -6,7 +6,6 @@ public class Prank {
    private Message message;
 
    public void getMessageFromConfigFiles() {
-       return;
    }
    public void getGroupFromConfigFiles() {
 

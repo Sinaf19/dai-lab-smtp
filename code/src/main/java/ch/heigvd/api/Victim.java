@@ -4,14 +4,13 @@ import java.io.File;
 import java.nio.charset.Charset;
 
 public class Victim {
-    private String emails;
+    private final String email;
 
     public Victim(String email) {
         this.email = email;
     }
 
-    
-
-
-
+    public String getMail() {
+        return email;
+    }
 }

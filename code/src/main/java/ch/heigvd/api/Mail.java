@@ -1,10 +1,12 @@
 package ch.heigvd.api;
 
+import java.util.ArrayList;
+
 public class Mail {
 
     private String from;
 
-    private String to;
+    private ArrayList<Victim> to;
 
     private String date;
 
@@ -14,7 +16,22 @@ public class Mail {
 
     private String sender;
 
+    public String getFrom() {
+        return from;
+    }
 
+    public ArrayList<Victim> getTo() {
+        return to;
+    }
+    public String getSender() {
+        return sender;
+    }
 
+    public String getSubject() {
+        return message.getSubject();
+    }
 
+    public String getContent() {
+        return message.getContent();
+    }
 }
