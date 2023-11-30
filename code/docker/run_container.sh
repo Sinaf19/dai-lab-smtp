@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker run -d -p 8282:8282 -p 2525:25 smtp_QS_RT/mockmock
+docker run -d -p 1080:1080 -p 1025:1025 maildev/maildev
