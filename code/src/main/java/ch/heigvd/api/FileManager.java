@@ -1,15 +1,12 @@
 package ch.heigvd.api;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class FileManager {
-
-    private ArrayList<Victim> victims;
-
-    private ArrayList<Message> messages;
 
     static private final Charset CHARSET = StandardCharsets.UTF_8;
 
@@ -19,15 +16,17 @@ public class FileManager {
 
     static private final String CRLF = "\r\n.\r\n";
 
-    void getVictimsFromFile(String fileName) throws RuntimeException {
+    public ArrayList<Victim> getVictimsFromFile(String fileName) throws RuntimeException {
         try (BufferedReader reader =
                      new BufferedReader(
                              new InputStreamReader(
                                      new FileInputStream(fileName), CHARSET))) {
+            ArrayList<Victim> victims = new ArrayList<Victim>();
             String line;
             while ((line = reader.readLine()) != null) {
                 victims.add(new Victim(line));
             }
+            return victims;
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -35,11 +34,12 @@ public class FileManager {
         }
     }
 
-    void getMessagesFromFile(String fileName) throws FileNotFoundException {
+    public ArrayList<Message> getMessagesFromFile(String fileName) throws FileNotFoundException {
         try (BufferedReader reader =
                      new BufferedReader(
                              new InputStreamReader(
                                      new FileInputStream(fileName), CHARSET))) {
+            ArrayList<Message> messages = new ArrayList<Message>();
             String line;
             String subject = "";
             String message = "";
@@ -52,10 +52,13 @@ public class FileManager {
                 } else {
                     message += (line + "\n");
                 }
-                if (subject != null && !subject.isEmpty() && !message.isEmpty() && message.endsWith(CRLF)) {
+
+                /* Ce if va poser problème je pense ... */
+                if (!subject.isEmpty() && !message.isEmpty() && message.endsWith(CRLF)) {
                     messages.add(new Message(subject, message));
                 }
             }
+            return messages;
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }

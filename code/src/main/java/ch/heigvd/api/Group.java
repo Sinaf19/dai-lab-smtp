@@ -7,4 +7,6 @@ public class Group {
     private String sender;
     private ArrayList<Victim> victims;
 
+    private Message message;
+
 }
