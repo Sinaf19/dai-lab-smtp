@@ -16,15 +16,21 @@ public class FileManager {
 
     static private final String CRLF = "\r\n.\r\n";
 
-    public ArrayList<Victim> getVictimsFromFile(String fileName) throws RuntimeException {
+    public ArrayList<String> getVictimsFromFile(String fileName) throws RuntimeException {
         try (BufferedReader reader =
                      new BufferedReader(
                              new InputStreamReader(
                                      new FileInputStream(fileName), CHARSET))) {
-            ArrayList<Victim> victims = new ArrayList<Victim>();
+            ArrayList<String> victims = new ArrayList<>();
             String line;
             while ((line = reader.readLine()) != null) {
-                victims.add(new Victim(line));
+                Matcher matcher = PATTERN.matcher(line);
+                if (matcher.matches()) {
+                    victims.add(line);
+                } else {
+                    /* Error handling */
+                    System.out.println("Invalid email address");
+                }
             }
             return victims;
         } catch (FileNotFoundException e) {

@@ -8,13 +8,13 @@ import java.util.Iterator;
 public class SmtpClient {
     private static final String EOL = "\r\n";
     private static final String SMTP_HOST = "localhost";
-    private static final int SMTP_PORT = 25;
+    private static final int SMTP_PORT = 1025;
 
     public static void main(String[] args) {
         Message message = new Message("Sujet", "body");
-        Victim a = new Victim("mail1@mail.com");
-        Victim b = new Victim("mail2@mail.com");
-        ArrayList<Victim> victims= new ArrayList<>();
+        String a = "mail1@mail.com";
+        String b = "mail2@mail.com";
+        ArrayList<String> victims= new ArrayList<>();
         victims.add(a);
         victims.add(b);
         Mail mail = new Mail("test@gmaille.com", victims, message);
@@ -22,6 +22,7 @@ public class SmtpClient {
     }
 
     public static void sendMail(Mail mail)  {
+        // TODO check server responses
         try (
                 Socket socket = new Socket(SMTP_HOST, SMTP_PORT);
                 BufferedReader in = new BufferedReader(
@@ -32,7 +33,8 @@ public class SmtpClient {
                 )
         ) {
 
-            String response;
+            String response = in.readLine();
+            System.out.println(response);
             out.write("EHLO example.com\r\n");
             out.flush();
             response = in.readLine();
@@ -44,7 +46,7 @@ public class SmtpClient {
             System.out.println(response);
 
             for (var to : mail.getTo()) {
-                out.write("RCPT TO: <" + to.getMail() + ">" + EOL);
+                out.write("RCPT TO: <" + to + ">" + EOL);
                 out.flush();
                 response = in.readLine();
                 System.out.println(response);
@@ -59,11 +61,11 @@ public class SmtpClient {
             out.write("To: ");
             StringBuilder recipients = new StringBuilder();
 
-            Iterator<Victim> iterator = mail.getTo().iterator();
+            Iterator<String> iterator = mail.getTo().iterator();
             while (iterator.hasNext()) {
-                Victim victim = iterator.next();
+                String victim = iterator.next();
                 //Do stuff
-                recipients.append(victim.getMail());
+                recipients.append(victim);
                 if (iterator.hasNext()) {
                     recipients.append(", ");
                     //last name
