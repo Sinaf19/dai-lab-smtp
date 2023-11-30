@@ -5,8 +5,17 @@ import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FileManager {
+
+    /* Regex that allows all characters permitted by RFC-5322,
+    * restricts consecutive dots, the last and first character must not be dots,
+    * the top level domain must only contain 2-6 letters */
+    static private final String REGEX = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+    
+    static private final Pattern PATTERN = Pattern.compile(REGEX);
 
     static private final Charset CHARSET = StandardCharsets.UTF_8;
 
@@ -45,6 +54,7 @@ public class FileManager {
                      new BufferedReader(
                              new InputStreamReader(
                                      new FileInputStream(fileName), CHARSET))) {
+
             ArrayList<Message> messages = new ArrayList<Message>();
             String line;
             String subject = "";
@@ -59,9 +69,11 @@ public class FileManager {
                     message += (line + "\n");
                 }
 
-                /* Ce if va poser problème je pense ... */
+                /* Ce if va poser problème je pense ... & Error Handling */
                 if (!subject.isEmpty() && !message.isEmpty() && message.endsWith(CRLF)) {
                     messages.add(new Message(subject, message));
+                    subject = "";
+                    message = "";
                 }
             }
             return messages;

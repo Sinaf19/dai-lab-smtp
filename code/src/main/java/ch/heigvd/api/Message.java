@@ -17,5 +17,9 @@ public class Message {
         return body;
     }
 
+    public String toString() {
+        return "Subject: " + this.subject + "\n" + this.body;
+    }
+
 
 }

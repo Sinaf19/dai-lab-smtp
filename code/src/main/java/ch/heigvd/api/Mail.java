@@ -6,7 +6,7 @@ public class Mail {
 
     private String from;
 
-    private ArrayList<Victim> to;
+    private ArrayList<String> to;
 
     private String date;
 
@@ -20,7 +20,7 @@ public class Mail {
         return from;
     }
 
-    public ArrayList<Victim> getTo() {
+    public ArrayList<String> getTo() {
         return to;
     }
     public String getSender() {
@@ -35,7 +35,7 @@ public class Mail {
         return message.getBody();
     }
 
-    public Mail(String from, ArrayList<Victim> to, Message message) {
+    public Mail(String from, ArrayList<String> to, Message message) {
         this.from = from;
         this.to = to;
         this.message = message;
