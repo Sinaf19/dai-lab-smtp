@@ -10,16 +10,6 @@ public class SmtpClient {
     private static final String SMTP_HOST = "localhost";
     private static final int SMTP_PORT = 1025;
 
-    public static void main(String[] args) {
-        Message message = new Message("Sujet", "body");
-        String a = "mail1@mail.com";
-        String b = "mail2@mail.com";
-        ArrayList<String> victims= new ArrayList<>();
-        victims.add(a);
-        victims.add(b);
-        Mail mail = new Mail("test@gmaille.com", victims, message);
-        sendMail(mail);
-    }
 
     public static void sendMail(Mail mail)  {
         // TODO check server responses

@@ -12,9 +12,10 @@ public class Mail {
 
     private Message message;
 
-    private Group groupe;
 
-    private String sender;
+
+
+
 
     public String getFrom() {
         return from;
@@ -23,9 +24,7 @@ public class Mail {
     public ArrayList<String> getTo() {
         return to;
     }
-    public String getSender() {
-        return sender;
-    }
+
 
     public String getSubject() {
         return message.getSubject();

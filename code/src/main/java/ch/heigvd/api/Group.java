@@ -25,4 +25,6 @@ public class Group {
     public Message getMessage() {
         return message;
     }
+
+
 }

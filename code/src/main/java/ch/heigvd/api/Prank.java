@@ -30,7 +30,17 @@ public class Prank {
           this.groups.add(new Group(sender, groupVictims, messages.get(random.nextInt(messages.size()))));
       }
 
+      }
+   public void sendMails() {
+
+      for(Group group : groups) {
+         Mail mail = new Mail(group.getSender(), group.getVictims(), group.getMessage());
+         SmtpClient.sendMail(mail);
+      }
+
    }
+
+
 
    public void print() {
       for(int i = 0; i < groups.size(); i++) {
