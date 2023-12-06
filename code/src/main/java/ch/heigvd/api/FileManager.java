@@ -8,6 +8,12 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Class allowing to read different config files and return their contents.
+ *
+ * @author Quentin Surdez
+ * @author Rachel Tranchida
+ */
 public class FileManager {
 
     /* Regex that allows all characters permitted by RFC-5322,
@@ -25,30 +31,40 @@ public class FileManager {
 
     static private final String CRLF = "\r\n.\r\n";
 
-    public ArrayList<String> getVictimsFromFile(String fileName) throws RuntimeException {
+    /**
+     * Method to get all emails from the victim.utf8 file
+     * @param fileName path to the config file vicitm.utf8
+     * @return an ArrayList of String containing all the emails from the file
+     * @throws RuntimeException
+     */
+    public ArrayList<Victim> getVictimsFromFile(String fileName) throws RuntimeException {
         try (BufferedReader reader =
                      new BufferedReader(
                              new InputStreamReader(
                                      new FileInputStream(fileName), CHARSET))) {
-            ArrayList<String> victims = new ArrayList<>();
+            ArrayList<Victim> victims = new ArrayList<>();
             String line;
             while ((line = reader.readLine()) != null) {
                 Matcher matcher = PATTERN.matcher(line);
                 if (matcher.matches()) {
-                    victims.add(line);
+                    victims.add(new Victim(line));
                 } else {
                     /* Error handling */
-                    System.out.println("Invalid email address");
+                    throw new RuntimeException("Invalid email address format");
                 }
             }
             return victims;
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
+    /**
+     * Method to get all messages from the file message.utf8
+     * @param fileName path to the file message.utf8
+     * @return an ArrayList of Message containing all the messages from the file
+     * @throws FileNotFoundException
+     */
     public ArrayList<Message> getMessagesFromFile(String fileName) throws FileNotFoundException {
         try (BufferedReader reader =
                      new BufferedReader(
@@ -69,12 +85,15 @@ public class FileManager {
                     message += (line + "\n");
                 }
 
-                /* Ce if va poser problème je pense ... & Error Handling */
                 if (!subject.isEmpty() && !message.isEmpty() && message.endsWith(CRLF)) {
                     messages.add(new Message(subject, message));
                     subject = "";
                     message = "";
                 }
+            }
+            if (messages.get(0).getSubject().isEmpty()) {
+                /* Error handling */
+                throw new RuntimeException("Invalid message format");
             }
             return messages;
         } catch (IOException ex) {

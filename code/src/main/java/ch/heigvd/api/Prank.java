@@ -27,7 +27,7 @@ public class Prank {
     * @param messages the list of messages
     * @throws InvalidParameterException if the number of victims is less than MIN_EMAIL
     */
-   public Prank(int nbGroups, ArrayList<String> victims, ArrayList<Message> messages) {
+   public Prank(int nbGroups, ArrayList<Victim> victims, ArrayList<Message> messages) {
 
       Random random = new Random(42);
       int numberOfVictims = victims.size();
@@ -38,9 +38,9 @@ public class Prank {
       for(int i = 0; i < nbGroups; i++) {
          // choose MIN_EMAIL to MAX_EMAIL email randomly but at most victims number
          int nbOfMails = Math.min(random.nextInt(MIN_EMAIL, MAX_EMAIL), numberOfVictims);
-         ArrayList<String> groupVictims = new ArrayList<>();
+         ArrayList<Victim> groupVictims = new ArrayList<>();
          Collections.shuffle(victims);
-         String sender = victims.get(0);
+         String sender = victims.get(0).getEmail();
          for(int j = 1; j < nbOfMails; j++) {
             groupVictims.add(victims.get(j));
          }
@@ -50,21 +50,20 @@ public class Prank {
 
       }
 
-      /**
-       * This method sends the mails to all groups.
-       */
+   /**
+    * This method sends the mails to all groups.
+    */
    public void sendMails() {
 
       for(Group group : groups) {
-         Mail mail = new Mail(group.getSender(), group.getVictims(), group.getMessage());
+         /* This allows the mail to be more generic and reusable as it will not stores Victim but strings */
+         ArrayList<String> victimToString = new ArrayList<>();
+         for (Victim v : group.getVictims()) {
+            victimToString.add(v.getEmail());
+         }
+         Mail mail = new Mail(group.getSender(), victimToString, group.getMessage());
          SmtpClient.sendMail(mail);
       }
 
    }
-
-
-
-
-
-
 }

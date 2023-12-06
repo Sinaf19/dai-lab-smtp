@@ -5,14 +5,23 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
+/**
+ * Class representing a SMTP Client. It will send the prank to a selected group.
+ *
+ * @author Quentin Surdez
+ * @author Rachel Tranchida
+ */
 public class SmtpClient {
     private static final String EOL = "\r\n";
     private static final String SMTP_HOST = "localhost";
     private static final int SMTP_PORT = 1025;
 
-
+    /**
+     * Send mail to the SMTP server
+     * @param mail
+     */
     public static void sendMail(Mail mail)  {
-        // TODO check server responses
+
         try (
                 Socket socket = new Socket(SMTP_HOST, SMTP_PORT);
                 BufferedReader in = new BufferedReader(
@@ -25,12 +34,12 @@ public class SmtpClient {
 
             String response = in.readLine();
             System.out.println(response);
-            out.write("EHLO example.com\r\n");
+            out.write("EHLO example.com" + EOL);
             out.flush();
             response = in.readLine();
             System.out.println(response);
 
-            out.write("MAIL FROM: <" + mail.getFrom() + ">\r\n");
+            out.write("MAIL FROM: <" + mail.getFrom() + ">" + EOL);
             out.flush();
             response = in.readLine();
             System.out.println(response);
@@ -42,19 +51,19 @@ public class SmtpClient {
                 System.out.println(response);
             }
 
-            out.write("DATA\r\n");
+            out.write("DATA" + EOL);
             out.flush();
             response = in.readLine();
             System.out.println(response);
             out.write("Subject:" + mail.getSubject() + EOL);
-            out.write("From: <sender@example.com>" + EOL);
+            out.write("From: " + mail.getFrom() + EOL);
             out.write("To: ");
             StringBuilder recipients = new StringBuilder();
 
             Iterator<String> iterator = mail.getTo().iterator();
             while (iterator.hasNext()) {
                 String victim = iterator.next();
-                //Do stuff
+
                 recipients.append(victim);
                 if (iterator.hasNext()) {
                     recipients.append(", ");
@@ -75,10 +84,11 @@ public class SmtpClient {
             out.flush();
             response = in.readLine();
             System.out.println(response);
+            in.close();
+            out.close();
+            socket.close();
         } catch (IOException e) {
             System.out.println("Exception " + e);
         }
-
-
     }
 }
