@@ -6,19 +6,37 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
 
+/**
+ * This class represents a prank. It contains a list of groups, each group contains a sender, a list of victims and a message.
+ * The number of groups is given in the constructor, and the list of victims and messages are given in the constructor. For each group 2-5 email
+ * adresses are chosen randomly from the list of victims. The first email address is the sender, and the others are the victims. The message is also chosen randomly.
+ *
+ * @author Quentin Surdez
+ * @author Rachel Tranchida
+ */
 public class Prank {
    final static int MIN_EMAIL = 2;
    final static int MAX_EMAIL = 5;
-   private ArrayList<Group> groups = new ArrayList<>();
+   private final ArrayList<Group> groups = new ArrayList<>();
+
+   /**
+    * Constructor of the class Prank. It takes the number of groups, a list of victims and a list of messages.
+    *
+    * @param nbGroups the number of groups
+    * @param victims the list of victims
+    * @param messages the list of messages
+    * @throws InvalidParameterException if the number of victims is less than MIN_EMAIL
+    */
    public Prank(int nbGroups, ArrayList<String> victims, ArrayList<Message> messages) {
 
       Random random = new Random(42);
       int numberOfVictims = victims.size();
       if(numberOfVictims < MIN_EMAIL) {
-         throw new InvalidParameterException("The file of victims must contain at least two email addresses");
+         throw new InvalidParameterException("There must be at least " + MIN_EMAIL + " victims.");
       }
-      // choose MIN_EMAIL to MAX_EMAIL email randomly but at most victims number
+
       for(int i = 0; i < nbGroups; i++) {
+         // choose MIN_EMAIL to MAX_EMAIL email randomly but at most victims number
          int nbOfMails = Math.min(random.nextInt(MIN_EMAIL, MAX_EMAIL), numberOfVictims);
          ArrayList<String> groupVictims = new ArrayList<>();
          Collections.shuffle(victims);
@@ -31,6 +49,10 @@ public class Prank {
       }
 
       }
+
+      /**
+       * This method sends the mails to all groups.
+       */
    public void sendMails() {
 
       for(Group group : groups) {
@@ -42,17 +64,7 @@ public class Prank {
 
 
 
-   public void print() {
-      for(int i = 0; i < groups.size(); i++) {
-         System.out.println("Group " + i);
-         System.out.println("Sender :" + groups.get(i).getSender());
-         System.out.println("Victims :");
-         System.out.println(groups.get(i).getVictims());
-         System.out.println("Message :");
-         System.out.println(groups.get(i).getMessage());
-      }
 
-   }
 
 
 }

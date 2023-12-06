@@ -9,10 +9,10 @@ public class Group {
         this.victims = victims;
         this.message = message;
     }
-    private String sender;
-    private ArrayList<String> victims;
+    private final String sender;
+    private final ArrayList<String> victims;
 
-    private Message message;
+    private final Message message;
 
     public String getSender() {
         return sender;

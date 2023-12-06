@@ -1,8 +1,8 @@
 package ch.heigvd.api;
+
 import java.io.*;
-import java.net.*;
+import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 public class SmtpClient {
